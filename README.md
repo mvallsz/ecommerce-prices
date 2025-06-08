@@ -115,9 +115,9 @@ El servicio expone un endpoint GET para consultar el precio aplicable:
 GET http://localhost:8080/api/prices/applicable?date=2020-06-14-16.00.00&product_id=35455&brand_id=1
 ```
 
-## Nuevo Puerto gRPC
+## Puerto gRPC
 
-Además de la API REST, la aplicación ahora expone un servicio gRPC para la consulta de precios, ofreciendo una alternativa de comunicación eficiente y con tipado fuerte.
+Además de la API REST, la aplicación expone un servicio gRPC para la consulta de precios, ofreciendo una alternativa de comunicación eficiente y con tipado fuerte.
 
 ### Definición del Servicio (price_service.proto)
 
@@ -127,7 +127,7 @@ El servicio gRPC se define en `src/main/proto/price_service.proto`:
 // Contenido del price_service.proto
 syntax = "proto3";
 
-option java_package = "com.example.ecommerceprices.grpc";
+option java_package = "com.bcnc.ecommerceprices.grpc";
 option java_multiple_files = true;
 
 import "google/protobuf/timestamp.proto";
@@ -153,3 +153,9 @@ message PriceResponse {
   double final_price = 6;
   string currency = 7;
 }
+```
+**Ejemplo de Petición Exitosa (GRPC):**
+```grpc
+grpcurl -plaintext -d '{"application_date": {"seconds": 1592143200, "nanos": 0}, "product_id": 35455, "brand_id": 1}' localhost:9090 ecommerceprices.PriceGrpcService/GetApplicablePrice
+```
+

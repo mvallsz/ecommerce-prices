@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ecommerce-prices-web-deployment
+  labels:
+    app: ecommerce-prices-web
+spec:
+  replicas: 2 # Initial replicas for web, adjust as needed
+  selector:
+    matchLabels:
+      app: ecommerce-prices-web
+  template:
+    metadata:
+      labels:
+        app: ecommerce-prices-web
+    spec:
+      containers:
+        - name: ecommerce-prices-app
+          image: acr/ecommerce-prices:latest # Same image as gRPC
+          ports:
+            - containerPort: 8080 # Expose only the web port
+              name: http-port
+          resources: # Tailored for web
+            requests:
+              cpu: "150m"
+              memory: "384Mi"
+            limits:
+              cpu: "300m"
+              memory: "768Mi"
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http-port
+            initialDelaySeconds: 10
+            periodSeconds: 30
+            timeoutSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: http-port
+            initialDelaySeconds: 5
+            periodSeconds: 15
+            timeoutSeconds: 5
+      imagePullSecrets:
+        - name: acr-secret

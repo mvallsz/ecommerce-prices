@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+option java_package = "com.bcnc.ecommerceprices.grpc"; // Paquete para el código Java generado
+option java_multiple_files = true; // Genera un archivo .java por cada mensaje/servicio
+
+import "google/protobuf/timestamp.proto"; // Para usar el tipo Timestamp de Protobuf
+
+package ecommerceprices;
+
+// Definición del servicio gRPC para consultar precios
+service PriceGrpcService {
+  rpc GetApplicablePrice (PriceRequest) returns (PriceResponse);
+}
+
+// Mensaje de solicitud para la consulta de precios
+message PriceRequest {
+  google.protobuf.Timestamp application_date = 1; // Fecha y hora de aplicación
+  int64 product_id = 2; // ID del producto
+  int64 brand_id = 3;   // ID de la marca
+}
+
+// Mensaje de respuesta para el precio aplicable
+message PriceResponse {
+  int64 product_id = 1;
+  int64 brand_id = 2;
+  int32 price_list = 3;
+  google.protobuf.Timestamp start_date = 4;
+  google.protobuf.Timestamp end_date = 5;
+  double final_price = 6;
+  string currency = 7;
+}
+
+// Mensaje de error (opcional, para un manejo de errores más detallado en gRPC)
+message ErrorResponse {
+  string message = 1;
+  string error_code = 2;
+}

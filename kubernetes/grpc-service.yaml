@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ecommerce-prices-grpc-service
+spec:
+  selector:
+    app: ecommerce-prices-grpc
+  ports:
+    - protocol: TCP
+      port: 9090 # External port for gRPC
+      targetPort: 9090 # Internal container port
+      name: grpc
+  type: LoadBalancer # Or ClusterIP if internal to the cluster

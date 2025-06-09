@@ -1,5 +1,7 @@
 package com.bcnc.ecommerceprices.infrastructure.adapter.controller;
 
+import com.bcnc.ecommerceprices.infrastructure.adapter.controller.web.dto.PriceErrorResponse;
+import com.bcnc.ecommerceprices.infrastructure.adapter.controller.web.dto.PriceResponse;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,7 +39,7 @@ public class PriceControllerIntegrationTest {
         assertEquals(1, response.getBody().getPriceList());
         assertEquals("2020-06-14 00.00.00", response.getBody().getStartDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss")));
         assertEquals("2020-12-31 23.59.59", response.getBody().getEndDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss")));
-        assertEquals(35.50, response.getBody().getFinalPrice(), 0.001);
+        assertEquals(35.50, response.getBody().getPrice(), 0.001);
         assertEquals("EUR", response.getBody().getCurrency());
     }
 
@@ -54,7 +56,7 @@ public class PriceControllerIntegrationTest {
         assertEquals(2, response.getBody().getPriceList());
         assertEquals("2020-06-14 15.00.00", response.getBody().getStartDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss")));
         assertEquals("2020-06-14 18.30.00", response.getBody().getEndDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss")));
-        assertEquals(25.45, response.getBody().getFinalPrice(), 0.001);
+        assertEquals(25.45, response.getBody().getPrice(), 0.001);
         assertEquals("EUR", response.getBody().getCurrency());
     }
 
@@ -71,7 +73,7 @@ public class PriceControllerIntegrationTest {
         assertEquals(1, response.getBody().getPriceList());
         assertEquals("2020-06-14 00.00.00", response.getBody().getStartDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss")));
         assertEquals("2020-12-31 23.59.59", response.getBody().getEndDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss")));
-        assertEquals(35.50, response.getBody().getFinalPrice(), 0.001);
+        assertEquals(35.50, response.getBody().getPrice(), 0.001);
         assertEquals("EUR", response.getBody().getCurrency());
     }
 
@@ -88,7 +90,7 @@ public class PriceControllerIntegrationTest {
         assertEquals(3, response.getBody().getPriceList());
         assertEquals("2020-06-15 00.00.00", response.getBody().getStartDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss")));
         assertEquals("2020-06-15 11.00.00", response.getBody().getEndDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss")));
-        assertEquals(30.50, response.getBody().getFinalPrice(), 0.001);
+        assertEquals(30.50, response.getBody().getPrice(), 0.001);
         assertEquals("EUR", response.getBody().getCurrency());
     }
 
@@ -105,7 +107,7 @@ public class PriceControllerIntegrationTest {
         assertEquals(4, response.getBody().getPriceList());
         assertEquals("2020-06-15 16.00.00", response.getBody().getStartDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss")));
         assertEquals("2020-12-31 23.59.59", response.getBody().getEndDate().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH.mm.ss")));
-        assertEquals(38.95, response.getBody().getFinalPrice(), 0.001);
+        assertEquals(38.95, response.getBody().getPrice(), 0.001);
         assertEquals("EUR", response.getBody().getCurrency());
     }
 

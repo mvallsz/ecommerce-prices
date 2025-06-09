@@ -96,7 +96,7 @@ class PriceTest {
         LocalDateTime endDate = LocalDateTime.of(2020, 1, 31, 23, 59, 59);
         Price price = new Price(this.testBrand, startDate, endDate, 1, 100L, 0, 10.0, "USD");
 
-        String expected = "Price{brand=Brand{id=1, name='Test Brand'}, startDate=2020-01-01T00:00, endDate=2020-01-31T23:59:59, priceList=1, productId=100, priority=0, price=10.0, curr='USD'}";
+        String expected = "Price{brand=Brand{id=1, name='Test Brand'}, startDate=2020-01-01T00:00, endDate=2020-01-31T23:59:59, priceList=1, productId=100, priority=0, price=10.0, currency='USD'}";
         assertEquals(expected, price.toString());
     }
 }

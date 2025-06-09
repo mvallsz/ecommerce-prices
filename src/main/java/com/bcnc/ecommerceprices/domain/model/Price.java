@@ -3,7 +3,10 @@ package com.bcnc.ecommerceprices.domain.model;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-// Entidad de Dominio Pura para Price
+/**
+ * Domain entity representing a Price.
+ * This class is part of the domain layer in a hexagonal architecture.
+ */
 public class Price {
 
     private final Brand brand;
@@ -13,86 +16,123 @@ public class Price {
     private final Long productId;
     private final Integer priority;
     private final Double price;
-    private final String curr;
+    private final String currency;
 
-    public Price(Brand brand, LocalDateTime startDate, LocalDateTime endDate, Integer priceList, Long productId, Integer priority, Double price, String curr) {
-        this.brand = brand;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.priceList = priceList;
-        this.productId = productId;
-        this.priority = priority;
-        this.price = price;
-        this.curr = curr;
+    /**
+     * Constructs a new Price entity.
+     *
+     * @param brand      the brand associated with the price
+     * @param startDate  the start date of the price validity
+     * @param endDate    the end date of the price validity
+     * @param priceList  the price list identifier
+     * @param productId  the ID of the product
+     * @param priority   the priority of the price
+     * @param price      the price value
+     * @param currency   the currency of the price
+     * @throws IllegalArgumentException if any parameter is null or invalid
+     */
+    public Price(Brand brand, LocalDateTime startDate, LocalDateTime endDate, Integer priceList, Long productId,
+                 Integer priority, Double price, String currency) {
+        this.brand = Objects.requireNonNull(brand, "Brand cannot be null");
+        this.startDate = validateDate(startDate, "Start date cannot be null");
+        this.endDate = validateDate(endDate, "End date cannot be null");
+        this.priceList = validatePositive(priceList, "Price list must be a positive number");
+        this.productId = validatePositive(productId, "Product ID must be a positive number");
+        this.priority = validatePositive(priority, "Priority must be a positive number");
+        this.price = validatePositive(price, "Price must be a positive number");
+        this.currency = validateCurrency(currency);
     }
 
     public Brand getBrand() {
-        return this.brand;
+        return brand;
     }
 
     public LocalDateTime getStartDate() {
-        return this.startDate;
+        return startDate;
     }
 
     public LocalDateTime getEndDate() {
-        return this.endDate;
+        return endDate;
     }
 
     public Integer getPriceList() {
-        return this.priceList;
+        return priceList;
     }
 
     public Long getProductId() {
-        return this.productId;
-    }
-
-    public Integer getPriority() {
-        return this.priority;
+        return productId;
     }
 
     public Double getPrice() {
-        return this.price;
+        return price;
     }
 
-    public String getCurr() {
-        return this.curr;
+    public String getCurrency() {
+        return currency;
     }
 
+    /**
+     * Checks if the price applies to the given application date.
+     *
+     * @param applicationDate the date to check
+     * @return true if the price is valid for the given date, false otherwise
+     */
     public boolean appliesTo(LocalDateTime applicationDate) {
-        return !applicationDate.isBefore(this.startDate) && !applicationDate.isAfter(this.endDate);
+        return !applicationDate.isBefore(startDate) && !applicationDate.isAfter(endDate);
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || this.getClass() != o.getClass()) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         Price price1 = (Price) o;
-        return Objects.equals(this.brand, price1.brand) &&
-                Objects.equals(this.startDate, price1.startDate) &&
-                Objects.equals(this.endDate, price1.endDate) &&
-                Objects.equals(this.priceList, price1.priceList) &&
-                Objects.equals(this.productId, price1.productId) &&
-                Objects.equals(this.priority, price1.priority) &&
-                Objects.equals(this.price, price1.price) &&
-                Objects.equals(this.curr, price1.curr);
+        return Objects.equals(brand, price1.brand) &&
+                Objects.equals(startDate, price1.startDate) &&
+                Objects.equals(endDate, price1.endDate) &&
+                Objects.equals(priceList, price1.priceList) &&
+                Objects.equals(productId, price1.productId) &&
+                Objects.equals(priority, price1.priority) &&
+                Objects.equals(price, price1.price) &&
+                Objects.equals(currency, price1.currency);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(this.brand, this.startDate, this.endDate, this.priceList, this.productId, this.priority, this.price, this.curr);
+        return Objects.hash(brand, startDate, endDate, priceList, productId, priority, price, currency);
     }
 
     @Override
     public String toString() {
         return "Price{" +
-                "brand=" + this.brand +
-                ", startDate=" + this.startDate +
-                ", endDate=" + this.endDate +
-                ", priceList=" + this.priceList +
-                ", productId=" + this.productId +
-                ", priority=" + this.priority +
-                ", price=" + this.price +
-                ", curr='" + this.curr + '\'' +
+                "brand=" + brand +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", priceList=" + priceList +
+                ", productId=" + productId +
+                ", priority=" + priority +
+                ", price=" + price +
+                ", currency='" + currency + '\'' +
                 '}';
+    }
+
+    private static LocalDateTime validateDate(LocalDateTime date, String errorMessage) {
+        if (date == null) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+        return date;
+    }
+
+    private static <T extends Number> T validatePositive(T value, String errorMessage) {
+        if (value == null || value.doubleValue() < 0) {
+            throw new IllegalArgumentException(errorMessage);
+        }
+        return value;
+    }
+
+    private static String validateCurrency(String currency) {
+        if (currency == null || currency.trim().isEmpty()) {
+            throw new IllegalArgumentException("Currency cannot be null or empty");
+        }
+        return currency;
     }
 }

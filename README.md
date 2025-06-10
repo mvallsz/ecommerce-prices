@@ -45,7 +45,7 @@ Este proyecto ha sido desarrollado utilizando un conjunto de tecnologías robust
 
 ### 🛡️ Arquitectura Implementada: Hexagonal (Puertos y Adaptadores) con DDD
 
-![img.png](img.png)
+![img_1.png](img_1.png)
 
 La aplicación sigue una **Arquitectura Hexagonal**, también conocida como Arquitectura de Puertos y Adaptadores, que se complementa con principios de **Domain-Driven Design (DDD)**. Este enfoque asegura un diseño de software desacoplado, altamente testeable y flexible ante cambios tecnológicos.
 

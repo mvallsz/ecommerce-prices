@@ -1,10 +1,14 @@
-# Nombre del Proyecto:
+# Proyecto:
 `ecommerce-prices` (Servicio de Precios gRPC/Web)
 
 Este proyecto es un servicio de precios que expone APIs tanto a través de gRPC como de servicios web HTTP/REST. Permite consultar precios de productos considerando la fecha de aplicación y la marca.
 
 -----
+## 🔖 Versionado
 
+El proyecto sigue [Semantic Versioning](https://semver.org/). La versión actual es `0.0.1-SNAPSHOT`.
+
+----- 
 ## 📋 Requisitos Previos
 Para construir y ejecutar este proyecto localmente, necesitas tener instaladas las siguientes herramientas:
 - **Java 17** (JDK)

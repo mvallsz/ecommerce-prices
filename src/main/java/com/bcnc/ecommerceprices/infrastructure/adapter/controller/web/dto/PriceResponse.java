@@ -10,21 +10,15 @@ import java.time.LocalDateTime;
  */
 public class PriceResponse {
 
-    private Long productId;
-    private Long brandId;
-    private Integer priceList;
+    private final Long productId;
+    private final Long brandId;
+    private final Integer priceList;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime startDate;
+    private final LocalDateTime startDate;
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
-    private LocalDateTime endDate;
-    private Double price;
-    private String currency;
-
-    /**
-     * Default constructor for deserialization.
-     */
-    public PriceResponse() {
-    }
+    private final LocalDateTime endDate;
+    private final Double price;
+    private final String currency;
 
     /**
      * Constructs a new PriceResponse DTO.
@@ -50,55 +44,28 @@ public class PriceResponse {
         return this.productId;
     }
 
-    public void setProductId(Long productId) {
-        this.productId = productId;
-    }
-
     public Long getBrandId() {
         return this.brandId;
-    }
-
-    public void setBrandId(Long brandId) {
-        this.brandId = brandId;
     }
 
     public Integer getPriceList() {
         return this.priceList;
     }
 
-    public void setPriceList(Integer priceList) {
-        this.priceList = priceList;
-    }
-
     public LocalDateTime getStartDate() {
         return this.startDate;
-    }
-
-    public void setStartDate(LocalDateTime startDate) {
-        this.startDate = startDate;
     }
 
     public LocalDateTime getEndDate() {
         return this.endDate;
     }
 
-    public void setEndDate(LocalDateTime endDate) {
-        this.endDate = endDate;
-    }
-
     public Double getPrice() {
         return this.price;
-    }
-
-    public void setPrice(Double price) {
-        this.price = price;
     }
 
     public String getCurrency() {
         return this.currency;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
 }

@@ -3,9 +3,14 @@ package com.bcnc.ecommerceprices.infrastructure.adapter.controller.web;
 import com.bcnc.ecommerceprices.application.PriceQueryService;
 import com.bcnc.ecommerceprices.domain.exception.PriceNotFoundException;
 import com.bcnc.ecommerceprices.domain.model.Price;
+import com.bcnc.ecommerceprices.infrastructure.adapter.controller.grpc.PriceGrpcServiceImpl;
 import com.bcnc.ecommerceprices.infrastructure.adapter.controller.web.dto.PriceErrorResponse;
 import com.bcnc.ecommerceprices.infrastructure.adapter.controller.web.dto.PriceResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +30,8 @@ import java.time.LocalDateTime;
 @RestController
 @RequestMapping("/api/prices")
 public class PriceController {
+
+    private static final Logger log = LoggerFactory.getLogger(PriceGrpcServiceImpl.class);
 
     private final PriceQueryService priceQueryService;
     private final PriceMapper priceMapper;
@@ -50,10 +57,9 @@ public class PriceController {
      */
     @GetMapping("/applicable")
     public ResponseEntity<PriceResponse> getApplicablePrice(
-            @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd-HH.mm.ss") LocalDateTime applicationDate,
-            @RequestParam("product_id") Long productId,
-            @RequestParam("brand_id") Long brandId) {
-
+            @RequestParam("date") @DateTimeFormat(pattern = "yyyy-MM-dd-HH.mm.ss") @NotNull(message = "Application date cannot be null") LocalDateTime applicationDate,
+            @RequestParam("product_id") @NotNull(message = "Product ID cannot be null") @Min(value = 1, message = "Product ID must be positive") Long productId,
+            @RequestParam("brand_id") @NotNull(message = "Brand ID cannot be null") @Min(value = 1, message = "Brand ID must be positive") Long brandId) {
         Price price = priceQueryService.getFinalApplicablePrice(applicationDate, productId, brandId);
         return ResponseEntity.ok(priceMapper.toResponse(price));
     }
@@ -68,6 +74,7 @@ public class PriceController {
     @ExceptionHandler(PriceNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public PriceErrorResponse handlePriceNotFoundException(PriceNotFoundException ex, HttpServletRequest request) {
+        log.warn("Price not found: {}", ex.getMessage(), ex); // Log the exception
         return new PriceErrorResponse(
                 HttpStatus.NOT_FOUND.value(),
                 HttpStatus.NOT_FOUND.getReasonPhrase(),

@@ -38,10 +38,9 @@ public class PricePersistenceAdapter implements PriceRepository {
      */
     @Override
     public Optional<Price> findApplicablePrice(LocalDateTime applicationDate, Long productId, Long brandId) {
-        return this.springDataPriceRepository.findApplicablePriceEntities(applicationDate, productId, brandId)
-                .stream()
-                .findFirst()
-                .map(this::toDomainModel);
+        PriceEntity entity = springDataPriceRepository.findTopApplicablePriceByPriority(applicationDate, productId, brandId);
+        if (entity == null) return Optional.empty();
+        return Optional.of(toDomainModel(entity));
     }
 
     /**
@@ -51,10 +50,7 @@ public class PricePersistenceAdapter implements PriceRepository {
      * @return the Price domain model
      */
     private Price toDomainModel(PriceEntity entity) {
-        Brand brand = Optional.ofNullable(entity.getBrand())
-                .map(b -> new Brand(b.getId(), b.getName()))
-                .orElse(null);
-
+        Brand brand = new Brand(entity.getBrand().getId(), entity.getBrand().getName());
         return new Price(
                 brand,
                 entity.getStartDate(),

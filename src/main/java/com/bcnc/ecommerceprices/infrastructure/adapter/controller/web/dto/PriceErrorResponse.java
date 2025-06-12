@@ -7,17 +7,11 @@ import java.time.LocalDateTime;
  * Represents the structure of error responses for price-related queries.
  */
 public class PriceErrorResponse {
-    private LocalDateTime timestamp;
-    private int status;
-    private String error;
-    private String message;
-    private String path;
-
-    /**
-     * Default constructor for deserialization.
-     */
-    public PriceErrorResponse() {
-    }
+    private final LocalDateTime timestamp;
+    private final int status;
+    private final String error;
+    private final String message;
+    private final String path;
 
     /**
      * Constructs a new PriceErrorResponse DTO.
@@ -37,21 +31,11 @@ public class PriceErrorResponse {
 
     public LocalDateTime getTimestamp() { return this.timestamp; }
 
-    public void setTimestamp(LocalDateTime timestamp) { this.timestamp = timestamp; }
-
     public int getStatus() { return this.status; }
-
-    public void setStatus(int status) { this.status = status; }
 
     public String getError() { return this.error; }
 
-    public void setError(String error) { this.error = error; }
-
     public String getMessage() { return this.message; }
 
-    public void setMessage(String message) { this.message = message; }
-
     public String getPath() { return this.path; }
-
-    public void setPath(String path) { this.path = path; }
 }
